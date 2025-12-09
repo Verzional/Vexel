@@ -68,16 +68,24 @@
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Grade:</strong>
                                     {{ $submission->result->grade }}/100</p>
-                                <p class="text-gray-700 dark:text-gray-300 mt-2"><strong>Reasoning: <br /> </strong>
+                                <p class="text-gray-700 dark:text-gray-300 mt-4"><strong>Reasoning: <br /> </strong>
                                     {{ $submission->result->reasoning }}</p>
                                 @if ($submission->result->feedback)
-                                    <p class="text-gray-700 dark:text-gray-300 mt-2"><strong>Overall Feedback: <br />
+                                    <p class="text-gray-700 dark:text-gray-300 mt-4"><strong>Overall Feedback: <br />
                                         </strong>
                                         {{ $submission->result->feedback }}</p>
                                 @endif
                                 @if ($submission->result->notable_points)
-                                    <p class="text-gray-700 dark:text-gray-300 mt-2"><strong>Notable Points: </br> </strong>
+                                    <p class="text-gray-700 dark:text-gray-300 mt-4"><strong>Notable Points: </br> </strong>
                                         {!! nl2br(e($submission->result->notable_points)) !!}</p>
+                                @endif
+                                @if ($submission->result->breakdown)
+                                    <p class="text-gray-700 dark:text-gray-300 mt-4"><strong> Grading Breakdown: <br />
+                                        </strong>
+                                        @foreach ($submission->result->breakdown as $item)
+                                            <p class="text-gray-700 dark:text-gray-300">{{ $item['criterion'] }}
+                                                Score: {{ $item['score'] }} / {{ $item['max_score'] }}</p>
+                                        @endforeach
                                 @endif
                             </div>
                         </div>
