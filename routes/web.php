@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('rubrics', RubricController::class)->middleware('auth');
 Route::resource('assignments', AssignmentController::class)->middleware('auth');
 Route::resource('submissions', SubmissionController::class)->middleware('auth');
+Route::get('submissions/{submission}/download', [SubmissionController::class, 'download'])->name('submissions.download')->middleware('auth');
 Route::post('submissions/{submission}/grade', [GradingController::class, 'grade'])->name('submissions.grade')->middleware('auth');
 
 require __DIR__.'/auth.php';

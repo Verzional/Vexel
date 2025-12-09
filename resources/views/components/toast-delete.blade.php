@@ -19,7 +19,7 @@
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $message }}</p>
                         </div>
                         <div class="ml-4 flex-shrink-0 flex space-x-2">
-                            <button type="button" onclick="proceedDelete(\${id})" class="inline-flex text-red-600 hover:text-red-900">Yes</button>
+                            <button type="button" onclick="proceedDelete(${id})" class="inline-flex text-red-600 hover:text-red-900">Yes</button>
                             <button type="button" onclick="hideConfirmToast()" class="inline-flex text-gray-400 hover:text-gray-500">No</button>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
     }
 
     function proceedDelete(id) {
-        document.getElementById(\`delete-form-\${id}\`).submit();
+        document.getElementById(`delete-form-${id}`).submit();
         hideConfirmToast();
     }
 </script>

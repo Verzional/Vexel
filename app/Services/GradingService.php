@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Result;
+use App\Models\Rubric;
 use App\Models\Submission;
 use Illuminate\Support\Facades\Http;
 
@@ -99,7 +100,7 @@ class GradingService
         ],
             "final_grade": 42,
             "reasoning": "Overall reasoning for the grade...",
-            "relevance_warning": "This submission discusses Pokemon, but the assignment was about WWI.",
+            'notable_points': "..."
             "overall_feedback": "..."
         }
         Ensure 'final_grade' is the sum of all 'weighted_score' values.
