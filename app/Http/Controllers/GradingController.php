@@ -37,9 +37,12 @@ class GradingController extends Controller
                 $notablePoints = implode("\n", $notablePoints);
             }
 
+            $breakdown = $aiResult['breakdown'] ?? [];
+
             Result::create([
                 'submission_id' => $submission->id,
                 'grade' => $aiResult['final_grade'],
+                'breakdown' => $breakdown,
                 'reasoning' => $aiResult['reasoning'],
                 'notable_points' => $notablePoints,
                 'feedback' => $aiResult['overall_feedback'] ?? '',

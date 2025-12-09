@@ -79,6 +79,14 @@
                                     <p class="text-gray-700 dark:text-gray-300 mt-2"><strong>Notable Points: </br> </strong>
                                         {!! nl2br(e($submission->result->notable_points)) !!}</p>
                                 @endif
+                                @if ($submission->result->breakdown)
+                                    <p class="text-gray-700 dark:text-gray-300 mt-2"><strong> Grading Breakdown: <br />
+                                        </strong>
+                                        @foreach ($submission->result->breakdown as $item)
+                                            <p class="text-gray-700 dark:text-gray-300 mt-2">{{ $item['criterion'] }}
+                                                Score: {{ $item['score'] }} / {{ $item['max_score'] }}</p>
+                                        @endforeach
+                                @endif
                             </div>
                         </div>
                     @else

@@ -101,15 +101,29 @@ class GradingService
         Return strict JSON with this structure:
         {
             "breakdown": [
-            { "criterion": "Clarity", "score_out_of_100": 80, "weighted_score": 24, "reason": "..." },
-            { "criterion": "Understanding", "score_out_of_100": 90, "weighted_score": 18, "reason": "..." }
+                { 
+                    "criterion": "Clarity", 
+                    "score": 12, 
+                    "max_score": 15,
+                },
+                { 
+                    "criterion": "Understanding", 
+                    "score": 18, 
+                    "max_score": 20,
+                }
             ],
-            "final_grade": 42,
+            "final_grade": 30,
             "reasoning": "Overall reasoning for the grade...",
             "notable_points": ["Point 1", "Point 2", "Point 3"],
             "overall_feedback": "..."
         }
-        Ensure 'final_grade' is the sum of all 'weighted_score' values.
-        EOT;        return $prompt;
+        
+        IMPORTANT RULES:
+        1. 'max_score' MUST match the Weight % defined in the Grading Criteria.
+        2. 'score' is the points earned out of 'max_score'.
+        3. 'final_grade' must be the sum of all 'score' values.
+        EOT;
+        
+        return $prompt;
     }
 }
