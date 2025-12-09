@@ -34,18 +34,6 @@
                         </div>
                     </div>
 
-                    <!-- Assignment Section -->
-                    <div class="mb-8">
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
-                            Assignment
-                        </h2>
-                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <p class="text-gray-700 dark:text-gray-300">{{ $submission->assignment->title }}</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 text-wrap whitespace-pre-line   ">
-                                {{ $submission->assignment->description }}</p>
-                        </div>
-                    </div>
-
                     <!-- File Section -->
                     <div class="mb-8">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
@@ -65,27 +53,59 @@
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
                                 Grading Result
                             </h2>
-                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                                <p class="text-gray-700 dark:text-gray-300"><strong>Grade:</strong>
-                                    {{ $submission->result->grade }}/100</p>
-                                <p class="text-gray-700 dark:text-gray-300 mt-4"><strong>Reasoning: <br /> </strong>
-                                    {{ $submission->result->reasoning }}</p>
+                            <div
+                                class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-6 shadow-sm">
+                                <!-- Grade Display -->
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-medium text-gray-900 dark:text-gray-100">Grade</span>
+                                        <span
+                                            class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ $submission->result->grade }}/100</span>
+                                    </div>
+                                    <div class="mt-2 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                                        <div class="bg-green-500 h-2 rounded-full"
+                                            style="width: {{ $submission->result->grade }}%"></div>
+                                    </div>
+                                </div>
+                                <!-- Reasoning -->
+                                <div class="mb-4">
+                                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Reasoning</h3>
+                                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        {{ $submission->result->reasoning }}</p>
+                                </div>
                                 @if ($submission->result->feedback)
-                                    <p class="text-gray-700 dark:text-gray-300 mt-4"><strong>Overall Feedback: <br />
-                                        </strong>
-                                        {{ $submission->result->feedback }}</p>
+                                    <div class="mb-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Overall
+                                            Feedback</h3>
+                                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                            {{ $submission->result->feedback }}</p>
+                                    </div>
                                 @endif
                                 @if ($submission->result->notable_points)
-                                    <p class="text-gray-700 dark:text-gray-300 mt-4"><strong>Notable Points: </br> </strong>
-                                        {!! nl2br(e($submission->result->notable_points)) !!}</p>
+                                    <div class="mb-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Notable Points
+                                        </h3>
+                                        <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                            {!! nl2br(e($submission->result->notable_points)) !!}</div>
+                                    </div>
                                 @endif
                                 @if ($submission->result->breakdown)
-                                    <p class="text-gray-700 dark:text-gray-300 mt-4"><strong> Grading Breakdown: <br />
-                                        </strong>
-                                        @foreach ($submission->result->breakdown as $item)
-                                            <p class="text-gray-700 dark:text-gray-300">{{ $item['criterion'] }}
-                                                Score: {{ $item['score'] }} / {{ $item['max_score'] }}</p>
-                                        @endforeach
+                                    <div class="mb-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Grading
+                                            Breakdown</h3>
+                                        <div class="space-y-3">
+                                            @foreach ($submission->result->breakdown as $item)
+                                                <div
+                                                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-600 rounded-lg">
+                                                    <span
+                                                        class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $item['criterion'] }}</span>
+                                                    <span
+                                                        class="text-sm text-gray-600 dark:text-gray-400">{{ $item['score'] }}
+                                                        / {{ $item['max_score'] }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -94,14 +114,19 @@
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
                                 Grade Submission
                             </h2>
-                            <form id="grade-form" action="{{ route('submissions.grade', $submission) }}" method="POST"
-                                class="inline">
-                                @csrf
-                                <button id="grade-button" type="submit"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                    AI Grade Submission
-                                </button>
-                            </form>
+                            <div
+                                class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-6 shadow-sm text-center">
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">Grade this submission using AI?
+                                </p>
+                                <form id="grade-form" action="{{ route('submissions.grade', $submission) }}" method="POST"
+                                    class="inline">
+                                    @csrf
+                                    <button id="grade-button" type="submit"
+                                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                                        AI Grade Submission
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     @endif
 

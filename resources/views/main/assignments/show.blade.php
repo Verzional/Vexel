@@ -39,7 +39,7 @@
                             Description
                         </h2>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <p class="text-gray-700 dark:text-gray-300">{{ $assignment->description }}</p>
+                            <p class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $assignment->description }}</p>
                         </div>
                     </div>
 
