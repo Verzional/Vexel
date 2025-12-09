@@ -13,7 +13,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                            Rubrics
+                            Rubric List
                         </h2>
                         <a href="{{ route('rubrics.create') }}"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -21,11 +21,7 @@
                         </a>
                     </div>
 
-                    @if (session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <x-toast :message="session('success')" type="success" />
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white dark:bg-gray-800">
@@ -58,13 +54,12 @@
                                                 class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">View</a>
                                             <a href="{{ route('rubrics.edit', $rubric) }}"
                                                 class="ml-2 text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>
-                                            <form action="{{ route('rubrics.destroy', $rubric) }}" method="POST"
+                                            <form id="delete-form-{{ $rubric->id }}" action="{{ route('rubrics.destroy', $rubric) }}" method="POST"
                                                 class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    class="ml-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                                    onclick="return confirm('Are you sure?')">Delete</button>
+                                                <button type="button" onclick="confirmDelete({{ $rubric->id }})"
+                                                    class="ml-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -73,7 +68,9 @@
                         </table>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
+</div>
 @endsection
+
+<x-toast-delete message="Are you sure you want to delete this rubric? This action cannot be undone." />

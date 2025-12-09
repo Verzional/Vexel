@@ -48,7 +48,7 @@ class AssignmentController extends Controller
      */
     public function show(Assignment $assignment)
     {
-        //
+        return view('main.assignments.show', compact('assignment'));
     }
 
     /**
@@ -56,7 +56,8 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
-        //
+        $rubrics = Rubric::all();
+        return view('main.assignments.edit', compact('assignment', 'rubrics'));
     }
 
     /**
@@ -64,7 +65,15 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, Assignment $assignment)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'rubric_id' => 'required|exists:rubrics,id',
+        ]);
+
+        $assignment->update($validated);
+
+        return redirect()->route('assignments.index')->with('success', 'Assignment updated successfully.');
     }
 
     /**
@@ -72,6 +81,8 @@ class AssignmentController extends Controller
      */
     public function destroy(Assignment $assignment)
     {
-        //
+        $assignment->delete();
+
+        return redirect()->route('assignments.index')->with('success', 'Assignment deleted successfully.');
     }
 }

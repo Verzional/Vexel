@@ -1,6 +1,7 @@
 @props(['message' => '', 'type' => 'error'])
 
-<div id="toast" class="fixed bottom-4 right-4 z-50 hidden">
+@if($message)
+<div id="toast" class="fixed bottom-4 right-4 z-50">
     <div
         class="w-96 bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5">
         <div class="p-4">
@@ -16,6 +17,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
                         </svg>
+                    @elseif($type === 'success')
+                        <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                     @else
                         <svg class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -29,6 +35,8 @@
                             Error
                         @elseif($type === 'warning')
                             Warning
+                        @elseif($type === 'success')
+                            Success
                         @else
                             Info
                         @endif
@@ -52,3 +60,22 @@
         </div>
     </div>
 </div>
+@endif
+
+<script>
+    function hideToast() {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            toast.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            setTimeout(() => {
+                hideToast();
+            }, 5000);
+        }
+    });
+</script>

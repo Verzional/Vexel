@@ -38,38 +38,49 @@ class RubricController extends Controller
 
         Rubric::create($validated);
 
-        return redirect()->route('main.rubrics.index')->with('success', 'Rubric created successfully.');
+        return redirect()->route('rubrics.index')->with('success', 'Rubric created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(rubric $rubric)
+    public function show(Rubric $rubric)
     {
-        //
+        return view('main.rubrics.show', compact('rubric'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(rubric $rubric)
+    public function edit(Rubric $rubric)
     {
-        //
+        return view('main.rubrics.edit', compact('rubric'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, rubric $rubric)
+    public function update(Request $request, Rubric $rubric)
     {
-        //
+        $validated = $request->validate([
+            'subject_name' => 'required|string',
+            'criteria' => 'required|array',
+            'criteria.*.name' => 'required|string',
+            'criteria.*.weight' => 'required|numeric',
+        ]);
+
+        $rubric->update($validated);
+
+        return redirect()->route('rubrics.index')->with('success', 'Rubric updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(rubric $rubric)
+    public function destroy(Rubric $rubric)
     {
-        //
+        $rubric->delete();
+
+        return redirect()->route('rubrics.index')->with('success', 'Rubric deleted successfully.');
     }
 }

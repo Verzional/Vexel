@@ -8,18 +8,15 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-4">
-                        Create Rubric
+                        Edit Rubric
                     </h2>
 
-                    <form action="{{ route('rubrics.store') }}" method="POST" id="rubricForm">
+                    <form method="POST" action="{{ route('rubrics.update', $rubric) }}" id="rubricForm">
                         @csrf
-
+                        @method('PUT')
                         <div class="mb-4">
-                            <label for="subject_name"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject Name</label>
-                            <input type="text" name="subject_name" id="subject_name"
-                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                required>
+                            <label for="subject_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject Name</label>
+                            <input type="text" name="subject_name" id="subject_name" value="{{ $rubric->subject_name }}" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
                             @error('subject_name')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -27,47 +24,39 @@
 
                         <div id="criteria" class="mb-4">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Criteria</h3>
-                            <div class="criterion mb-2" data-index="0">
-                                <div class="flex space-x-2 items-end">
-                                    <div class="flex-1">
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Criteria
-                                            Name</label>
-                                        <input type="text" name="criteria[0][name]"
-                                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                            required>
-                                    </div>
-                                    <div class="flex-1">
-                                        <label
-                                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Weight</label>
-                                        <input type="number" name="criteria[0][weight]" step="0.01"
-                                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm weight-input"
-                                            required>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <button type="button" onclick="deleteCriterion(this)"
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                            disabled>
-                                            Delete
-                                        </button>
+                            @foreach($rubric->criteria as $index => $criterion)
+                                <div class="criterion mb-2" data-index="{{ $index }}">
+                                    <div class="flex space-x-2 items-end">
+                                        <div class="flex-1">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Criteria Name</label>
+                                            <input type="text" name="criteria[{{ $index }}][name]" value="{{ $criterion['name'] }}" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
+                                        </div>
+                                        <div class="flex-1">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Weight</label>
+                                            <input type="number" name="criteria[{{ $index }}][weight]" value="{{ $criterion['weight'] }}" step="0.01" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm weight-input" required>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <button type="button" onclick="deleteCriterion(this)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" {{ count($rubric->criteria) <= 1 ? 'disabled' : '' }}>
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
 
                         <div class="mb-4">
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Total Weight: <span
-                                    id="totalWeight">0</span>%</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Total Weight: <span id="totalWeight">0</span>%</p>
                         </div>
 
-                        <button type="button" onclick="addCriterion()"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+                        <button type="button" onclick="addCriterion()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
                             Add Criterion
                         </button>
 
-                        <button type="submit"
-                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Create Rubric
+                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            Update Rubric
                         </button>
+                        <a href="{{ route('rubrics.index') }}" class="ml-4 text-gray-600 hover:text-white">Cancel</a>
                     </form>
                 </div>
             </div>
@@ -75,7 +64,7 @@
     </div>
 
     <script>
-        let count = 1;
+        let count = {{ count($rubric->criteria) }};
 
         function addCriterion() {
             const div = document.createElement('div');
@@ -111,6 +100,9 @@
             if (criteria.length > 1) {
                 criterionDiv.remove();
                 updateTotalWeight();
+                // Re-enable delete buttons if now more than one
+                const deleteButtons = document.querySelectorAll('button[onclick="deleteCriterion(this)"]');
+                deleteButtons.forEach(btn => btn.disabled = false);
             } else {
                 showToast('At least one criterion is required.', 'warning');
             }
@@ -153,8 +145,7 @@
                 const totalWeight = parseFloat(document.getElementById('totalWeight').textContent);
                 if (Math.abs(totalWeight - 100) > 0.01) {
                     e.preventDefault();
-                    showToast('The total weight of all criteria must equal 100%. Current total: ' +
-                        totalWeight.toFixed(2) + '%', 'warning');
+                    showToast('The total weight of all criteria must equal 100%. Current total: ' + totalWeight.toFixed(2) + '%', 'warning');
                 }
             });
         });
