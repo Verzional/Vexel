@@ -12,7 +12,8 @@ class RubricController extends Controller
      */
     public function index()
     {
-        //
+        $rubrics = Rubric::all();
+        return view('main.rubrics.index', compact('rubrics'));
     }
 
     /**
@@ -20,23 +21,25 @@ class RubricController extends Controller
      */
     public function create()
     {
-        //
+        return view('main.rubrics.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request) 
-{
-    $validated = $request->validate([
-        'subject_name' => 'required|string',
-        'criteria' => 'required|array',
-        'criteria.*.name' => 'required|string',
-        'criteria.*.weight' => 'required|numeric',
-    ]);
+    {
+        $validated = $request->validate([
+            'subject_name' => 'required|string',
+            'criteria' => 'required|array',
+            'criteria.*.name' => 'required|string',
+            'criteria.*.weight' => 'required|numeric',
+        ]);
 
-    Rubric::create($validated);
-}
+        Rubric::create($validated);
+
+        return redirect()->route('main.rubrics.index')->with('success', 'Rubric created successfully.');
+    }
 
     /**
      * Display the specified resource.

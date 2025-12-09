@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('rubrics', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->longtext('content');
+            $table->string('subject_name');
+            $table->json('criteria');
             $table->timestamps();
         });
     }

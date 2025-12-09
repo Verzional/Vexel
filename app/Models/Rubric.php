@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rubric extends Model
 {
-    protected $fillable = ['title'];
+    protected $fillable = ['subject_name', 'criteria'];
 
     protected $casts = [
         'criteria' => 'array',
