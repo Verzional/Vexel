@@ -51,37 +51,53 @@ class GradingService
 
         $responseData = $response->json();
         $generatedText = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '{}';
-        
+
         return json_decode($generatedText, true);
     }
 
-    public function buildPrompt(string $rubric, string $currentStudentWork, $examples)
+    private function buildPrompt(Rubric $rubric, string $studentText, $examples)
     {
-        $prompt = "You are an expert academic grader. Your task is to grade a student submission based strictly on the provided Rubric.\n\n";
+        $prompt = "You are an expert academic grader for the subject: {$rubric->subject_name}.\n";
+        $prompt .= "Your task is to grade a student's work based strictly on the weighted criteria below.\n\n";
 
-        $prompt .= "### GRADING RUBRIC (RPS):\n";
-        $prompt .= $rubric."\n\n";
+        $prompt .= "### GRADING CRITERIA (The Rules):\n";
+
+        foreach ($rubric->criteria as $criterion) {
+            $name = $criterion['name'];
+            $weight = $criterion['weight'];
+            $desc = $criterion['description'] ?? '';
+
+            $prompt .= "- **{$name}** (Weight: {$weight}%)\n";
+            if ($desc) {
+                $prompt .= "  Context: $desc\n";
+            }
+        }
+        $prompt .= "\n";
 
         if ($examples->isNotEmpty()) {
-            $prompt .= "### REFERENCE EXAMPLES (How I want you to grade):\n";
-            $prompt .= "Use these examples to understand the strictness and reasoning style required.\n\n";
-
-            foreach ($examples as $index => $result) {
-                $num = $index + 1;
-                $exampleText = Str::limit($result->submission->extracted_text, 600);
-
-                $prompt .= "--- EXAMPLE #{$num} ---\n";
-                $prompt .= "Student Input Snippet: \"{$exampleText}...\"\n";
-                $prompt .= "Assigned Grade: {$result->score}\n";
-                $prompt .= "Examiner Reasoning: {$result->reasoning}\n\n";
+            $prompt .= "### REFERENCE EXAMPLES (Previous Grading Style):\n";
+            foreach ($examples as $i => $ex) {
+                $prompt .= 'Example #'.($i + 1).': Given score '.$ex->score."\n";
+                $prompt .= 'Reasoning: '.$ex->reasoning."\n---\n";
             }
         }
 
-        $prompt .= "### CURRENT STUDENT SUBMISSION (Grade this):\n";
-        $prompt .= $currentStudentText."\n\n";
+        $prompt .= "### STUDENT SUBMISSION:\n";
+        $prompt .= $studentText."\n\n";
 
-        $prompt .= "### OUTPUT FORMAT:\n";
-        $prompt .= "Return strict JSON. Do not use Markdown code blocks. keys: 'grade' (int), 'reasoning' (string), 'notable_points' (array of strings).";
+        $prompt .= <<<'EOT'
+        ### OUTPUT FORMAT:
+        Return strict JSON with this structure:
+        {
+            "breakdown": [
+            { "criterion": "Clarity", "score_out_of_100": 80, "weighted_score": 24, "reason": "..." },
+            { "criterion": "Understanding", "score_out_of_100": 90, "weighted_score": 18, "reason": "..." }
+        ],
+            "final_grade": 42,
+            "overall_feedback": "..."
+        }
+        Ensure 'final_grade' is the sum of all 'weighted_score' values.
+        EOT;
 
         return $prompt;
     }
