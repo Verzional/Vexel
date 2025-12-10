@@ -131,7 +131,6 @@
             const messageEl = document.getElementById('toast-message');
             messageEl.textContent = message;
             toast.classList.remove('hidden');
-            // Auto-hide after 5 seconds
             setTimeout(() => {
                 hideToast();
             }, 5000);
