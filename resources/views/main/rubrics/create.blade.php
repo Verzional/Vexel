@@ -1,161 +1,130 @@
-@extends('layouts.app')
+<x-app-layout>
+    <div class="max-w-5xl mx-auto">
+        
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Create New Rubric</h2>
+            <p class="text-gray-500 text-sm mt-1">Add a subject and define grading criteria.</p>
+        </div>
 
-@section('content')
-    <x-toast message="" type="warning" />
+        <form method="POST" action="{{ route('rubrics.store') }}" 
+              x-data="rubricHandler()" 
+              class="space-y-8">
+            @csrf
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-4">
-                        Create Rubric
-                    </h2>
+            <div class="bg-gray-100 p-6 rounded-2xl border border-gray-200">
+                <label class="block text-gray-500 text-sm font-bold mb-2">Rubric Title / Subject Name</label>
+                <input type="text" 
+                       name="subject_name" 
+                       placeholder="Enter Subject Name" 
+                       class="w-full bg-transparent border-none text-2xl font-bold text-gray-800 placeholder-gray-400 focus:ring-0 px-0"
+                       required autofocus>
+                <div class="h-0.5 w-full bg-gray-300 mt-2"></div>
+            </div>
 
-                    <form action="{{ route('rubrics.store') }}" method="POST" id="rubricForm">
-                        @csrf
+            <div class="space-y-4">
+                <template x-for="(item, index) in criterias" :key="item.id">
+                    
+                    <div class="bg-[#EBEBFF] p-6 rounded-2xl border border-indigo-50 relative group hover:shadow-md transition-all">
+                        
+                        <button type="button" @click="removeCriteria(index)" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
 
-                        <div class="mb-4">
-                            <label for="subject_name"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject Name</label>
-                            <input type="text" name="subject_name" id="subject_name"
-                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                required>
-                            @error('subject_name')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div id="criteria" class="mb-4">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Criteria</h3>
-                            <div class="criterion mb-2" data-index="0">
-                                <div class="flex space-x-2 items-end">
-                                    <div class="flex-1">
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Criteria
-                                            Name</label>
-                                        <input type="text" name="criteria[0][name]"
-                                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                            required>
-                                    </div>
-                                    <div class="flex-1">
-                                        <label
-                                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Weight</label>
-                                        <input type="number" name="criteria[0][weight]" step="0.01"
-                                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm weight-input"
-                                            required>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <button type="button" onclick="deleteCriterion(this)"
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                            disabled>
-                                            Delete
-                                        </button>
-                                    </div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                            
+                            <div class="md:col-span-8 space-y-3">
+                                <div>
+                                    <input type="text" 
+                                           :name="`criteria[${index}][name]`" 
+                                           placeholder="Criteria Name" 
+                                           class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#764BA2] focus:ring focus:ring-[#764BA2] focus:ring-opacity-20 placeholder-gray-400 font-medium"
+                                           required>
+                                </div>
+                                <div>
+                                    <textarea :name="`criteria[${index}][description]`" 
+                                              rows="2" 
+                                              placeholder="Description" 
+                                              class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#764BA2] focus:ring focus:ring-[#764BA2] focus:ring-opacity-20 placeholder-gray-400 text-sm resize-none"></textarea>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Total Weight: <span
-                                    id="totalWeight">0</span>%</p>
-                        </div>
+                            <div class="md:col-span-4 flex flex-col justify-center bg-white/60 rounded-xl p-4">
+                                <label class="text-sm font-bold text-gray-700 mb-3 flex justify-between items-center">
+                                    Weight %
+                                    <span class="bg-[#764BA2] text-white px-2 py-1 rounded-lg text-xs" x-text="item.weight + '%'"></span>
+                                </label>
+                                
+                                <div class="flex items-center gap-3">
+                                    <input type="range" 
+                                           x-model="item.weight" 
+                                           :name="`criteria[${index}][weight]`" 
+                                           min="0" max="100" step="1"
+                                           class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-[#764BA2]">
+                                    
+                                    <input type="number" 
+                                           x-model="item.weight" 
+                                           min="0" max="100"
+                                           class="w-16 text-center border border-gray-200 rounded-lg py-1 text-sm font-bold text-gray-700 focus:border-[#764BA2] focus:ring-0">
+                                </div>
+                            </div>
 
-                        <button type="button" onclick="addCriterion()"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-                            Add Criterion
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:ml-64 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+                <div class="max-w-5xl mx-auto flex items-center justify-between">
+                    
+                    <div class="text-sm font-bold">
+                        Total Weight: 
+                        <span :class="totalWeight === 100 ? 'text-green-600' : 'text-red-500'" class="text-lg ml-1" x-text="totalWeight + '%'"></span>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button type="button" 
+                                @click="addCriteria()"
+                                class="px-5 py-2.5 bg-gray-100 text-[#764BA2] font-bold rounded-xl hover:bg-gray-200 transition-colors flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                            Add New Criteria
                         </button>
 
-                        <button type="submit"
-                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Create Rubric
+                        <button type="submit" 
+                                :disabled="totalWeight !== 100"
+                                :class="totalWeight !== 100 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#764BA2] hover:bg-[#633e8a] shadow-lg shadow-purple-200'"
+                                class="px-8 py-2.5 text-white font-bold rounded-xl transition-all">
+                            Save Rubric
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+            
+            <div class="h-24"></div>
+
+        </form>
     </div>
 
     <script>
-        let count = 1;
-
-        function addCriterion() {
-            const div = document.createElement('div');
-            div.className = 'criterion mb-2';
-            div.setAttribute('data-index', count);
-            div.innerHTML = `
-        <div class="flex space-x-2 items-end">
-            <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Criteria Name</label>
-                <input type="text" name="criteria[${count}][name]" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-            </div>
-            <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Weight</label>
-                <input type="number" name="criteria[${count}][weight]" step="0.01" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm weight-input" required>
-            </div>
-            <div class="flex-shrink-0">
-                <button type="button" onclick="deleteCriterion(this)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    Delete
-                </button>
-            </div>
-        </div>
-    `;
-            document.getElementById('criteria').appendChild(div);
-            const newInput = div.querySelector('.weight-input');
-            newInput.addEventListener('input', updateTotalWeight);
-            count++;
-            updateTotalWeight();
-        }
-
-        function deleteCriterion(button) {
-            const criterionDiv = button.closest('.criterion');
-            const criteria = document.querySelectorAll('.criterion');
-            if (criteria.length > 1) {
-                criterionDiv.remove();
-                updateTotalWeight();
-            } else {
-                showToast('At least one criterion is required.', 'warning');
+        function rubricHandler() {
+            return {
+                criterias: [
+                    { id: Date.now(), weight: 0 } // Mulai dengan 1 kriteria kosong
+                ],
+                addCriteria() {
+                    this.criterias.push({
+                        id: Date.now() + Math.random(),
+                        weight: 0
+                    });
+                },
+                removeCriteria(index) {
+                    if (this.criterias.length > 1) {
+                        this.criterias.splice(index, 1);
+                    }
+                },
+                get totalWeight() {
+                    return this.criterias.reduce((sum, item) => sum + parseInt(item.weight || 0), 0);
+                }
             }
         }
-
-        function updateTotalWeight() {
-            const weightInputs = document.querySelectorAll('.weight-input');
-            let total = 0;
-            weightInputs.forEach(input => {
-                const value = parseFloat(input.value) || 0;
-                total += value;
-            });
-            document.getElementById('totalWeight').textContent = total.toFixed(2);
-        }
-
-        function showToast(message, type = 'error') {
-            const toast = document.getElementById('toast');
-            const messageEl = document.getElementById('toast-message');
-            messageEl.textContent = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                hideToast();
-            }, 5000);
-        }
-
-        function hideToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('hidden');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateTotalWeight();
-
-            document.querySelectorAll('.weight-input').forEach(input => {
-                input.addEventListener('input', updateTotalWeight);
-            });
-
-            document.getElementById('rubricForm').addEventListener('submit', function(e) {
-                const totalWeight = parseFloat(document.getElementById('totalWeight').textContent);
-                if (Math.abs(totalWeight - 100) > 0.01) {
-                    e.preventDefault();
-                    showToast('The total weight of all criteria must equal 100%. Current total: ' +
-                        totalWeight.toFixed(2) + '%', 'warning');
-                }
-            });
-        });
     </script>
-@endsection
+</x-app-layout>

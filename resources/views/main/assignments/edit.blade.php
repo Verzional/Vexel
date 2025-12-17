@@ -1,72 +1,52 @@
-@extends('layouts.app')
+<x-app-layout>
+    <div class="max-w-3xl mx-auto">
+        
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Edit Assignment</h2>
+        </div>
 
-@section('content')
-    <x-toast message="" type="warning" />
+        <form method="POST" action="{{ route('assignments.update', $assignment->id) }}" class="space-y-6">
+            @csrf
+            @method('PUT')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-4">
-                        Edit Assignment
-                    </h2>
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <label class="block text-gray-700 font-bold mb-2">Assignment Title</label>
+                <input type="text" name="title" value="{{ old('title', $assignment->title) }}" required
+                       class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#764BA2] focus:ring focus:ring-[#764BA2] focus:ring-opacity-20 transition-all bg-white">
+            </div>
 
-                    <form method="POST" action="{{ route('assignments.update', $assignment) }}" id="assignmentForm">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-4">
-                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
-                            <input type="text" name="title" id="title" value="{{ $assignment->title }}" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                            @error('title')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                            <textarea name="description" id="description" rows="4" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>{{ $assignment->description }}</textarea>
-                            @error('description')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="rubric_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Rubric</label>
-                            <select name="rubric_id" id="rubric_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                @foreach($rubrics as $rubric)
-                                    <option value="{{ $rubric->id }}" {{ $assignment->rubric_id == $rubric->id ? 'selected' : '' }}>{{ $rubric->subject_name }}</option>
-                                @endforeach
-                            </select>
-                            @error('rubric_id')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Update Assignment
-                        </button>
-                        <a href="{{ route('assignments.index') }}" class="ml-4 text-gray-600 hover:text-white">Cancel</a>
-                    </form>
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <label class="block text-gray-700 font-bold mb-2">Grading Rubric</label>
+                <div class="relative">
+                    <select name="rubric_id" required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#764BA2] focus:ring focus:ring-[#764BA2] focus:ring-opacity-20 transition-all bg-white appearance-none cursor-pointer">
+                        
+                        @foreach($rubrics as $rubric)
+                            <option value="{{ $rubric->id }}" 
+                                {{ $assignment->rubric_id == $rubric->id ? 'selected' : '' }}>
+                                {{ $rubric->subject_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <label class="block text-gray-700 font-bold mb-2">Instructions</label>
+                <textarea name="description" rows="5"
+                          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#764BA2] focus:ring focus:ring-[#764BA2] focus:ring-opacity-20 transition-all bg-white">{{ old('description', $assignment->description) }}</textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-4 pt-4">
+                <a href="{{ route('assignments.index') }}" class="text-gray-500 hover:text-gray-800 font-bold px-4">Cancel</a>
+                <button type="submit" class="bg-[#764BA2] hover:bg-[#633e8a] text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:-translate-y-0.5">
+                    Update Assignment
+                </button>
+            </div>
+
+        </form>
     </div>
-
-    <script>
-        function showToast(message, type = 'error') {
-            const toast = document.getElementById('toast');
-            const messageEl = document.getElementById('toast-message');
-            messageEl.textContent = message;
-            toast.classList.remove('hidden');
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                hideToast();
-            }, 5000);
-        }
-
-        function hideToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('hidden');
-        }
-    </script>
-@endsection
+</x-app-layout>
