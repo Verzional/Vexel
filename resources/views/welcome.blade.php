@@ -35,17 +35,18 @@
 </head>
 
 <body class="font-sans antialiased bg-[#F8F9FE] text-slate-800 pt-28">
+    <div
+        class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-50 mix-blend-multiply filter">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-50 mix-blend-multiply filter overflow-visible">
+    </div>
 
     <nav class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-lg border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
             <div class="flex items-center gap-3">
                 <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-9 w-auto">
-            </div>
-
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-                <a href="#" class="hover:text-indigo-600 transition">Home</a>
-                <a href="#fitur" class="hover:text-indigo-600 transition">How It Works</a>
             </div>
 
             <div class="hidden md:flex items-center gap-4">
@@ -56,9 +57,9 @@
                             Dashboard
                         </a>
                     @else
-                        <a href="{{ route('register') }}"
+                        <a href="{{ route('login') }}"
                             class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition">
-                            Try for Free
+                            Login Now
                         </a>
                     @endauth
                 @endif
@@ -89,12 +90,7 @@
 
 
     <header class="relative pb-32 overflow-hidden">
-        <div
-            class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-50 mix-blend-multiply filter">
-        </div>
-        <div
-            class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-50 mix-blend-multiply filter">
-        </div>
+
 
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="space-y-8">
