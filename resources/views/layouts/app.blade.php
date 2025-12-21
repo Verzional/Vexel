@@ -22,8 +22,7 @@
 
             <div class="h-24 flex items-center px-8">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('images/vexel-logo.png') }}" alt="Logo" class="w-8 h-8">
-                    <span class="text-2xl font-bold text-[#764BA2] tracking-wide">Vexel</span>
+                    <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-10 w-auto">
                 </a>
             </div>
 

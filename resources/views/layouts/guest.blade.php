@@ -20,8 +20,7 @@
             
             <div class="p-12 pb-0 z-10">
                 <div class="flex items-center gap-3 mb-10">
-                    <img src="{{ asset('images/vexel-logo.png') }}" alt="Vexel Logo" class="h-8 w-auto">
-                    <span class="text-2xl font-bold text-[#764BA2] tracking-wide">Vexel</span>
+                    <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-10 w-auto">
                 </div>
 
                 @if (request()->routeIs('register'))
