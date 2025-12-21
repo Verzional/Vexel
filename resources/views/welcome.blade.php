@@ -53,8 +53,8 @@
                 @if (Route::has('login'))
                     @auth
                         <a href="{{ url('/dashboard') }}"
-                            class="font-medium text-slate-700 hover:text-indigo-600 transition">
-                            Dashboard
+                            class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition">
+                            Go to Dashboard
                         </a>
                     @else
                         <a href="{{ route('login') }}"
@@ -77,11 +77,14 @@
 
             <div class="pt-4 border-t border-slate-200">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="block text-slate-700 font-semibold">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}"
+                        class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition">
+                        Go to Dashboard
+                    </a>
                 @else
-                    <a href="{{ route('register') }}"
+                    <a href="{{ route('login') }}"
                         class="block mt-2 text-center bg-indigo-600 text-white py-2 rounded-full font-semibold">
-                        Try for Free
+                        Login Now
                     </a>
                 @endauth
             </div>
@@ -94,10 +97,12 @@
 
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="space-y-8">
-                <h1 class="text-5xl lg:text-6xl font-bold leading-tight text-slate-900">
-                    Objective & Consistent Grading with <span class="text-brand-600">AI Grading</span>.
+                <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-slate-900">
+                    Objective & Consistent Grading with
+                    <span class="text-brand-600">AI Grading</span>.
                 </h1>
-                <p class="text-lg text-slate-600 leading-relaxed max-w-lg">
+
+                <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-lg">
                     Eliminate grading bias caused by fatigue. Vexel helps educators evaluate student work based on
                     custom rubrics with fairness, detail, and efficiency.
                 </p>
@@ -116,7 +121,7 @@
             </div>
 
             <div
-                class="relative h-[500px] w-full bg-gradient-to-br from-indigo-100 to-white rounded-[2.5rem] flex items-end justify-center overflow-hidden border border-white shadow-2xl">
+                class="relative h-[320px] sm:h-[420px] lg:h-[500px] w-fullbg-gradient-to-br from-indigo-100 to-white rounded-[2rem] sm:rounded-[2.5rem]">
 
                 <div class="absolute inset-0 bg-gradient-to-t from-indigo-50/80 via-transparent to-transparent"></div>
 

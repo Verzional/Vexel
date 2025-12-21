@@ -3,7 +3,7 @@
         
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h2 class="text-3xl font-bold text-gray-900">Edit Rubric</h2>
+                <h2 class="text-3xl font-bold text-gray-700">Edit Rubric</h2>
                 <p class="text-gray-500 text-sm mt-1">Update subject name or modify assessment criteria.</p>
             </div>
             <a href="{{ route('rubrics.index') }}" class="text-gray-500 hover:text-gray-700 font-medium">
@@ -31,7 +31,7 @@
                        name="subject_name" 
                        value="{{ old('subject_name', $rubric->subject_name) }}"
                        placeholder="Enter Subject Name..." 
-                       class="w-full bg-transparent border-none text-2xl font-bold text-gray-800 placeholder-gray-400 focus:ring-0 px-0"
+                       class="w-full bg-transparent border-none text-2xl font-bold text-gray-700 placeholder-gray-400 focus:ring-0 px-0"
                        required>
                 <div class="h-0.5 w-full bg-gray-300 mt-2"></div>
             </div>

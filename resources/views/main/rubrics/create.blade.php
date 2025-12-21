@@ -2,7 +2,7 @@
     <div class="max-w-5xl mx-auto">
         
         <div class="mb-8">
-            <h2 class="text-3xl font-bold text-gray-900">Create New Rubric</h2>
+            <h2 class="text-3xl font-bold text-gray-700">Create New Rubric</h2>
             <p class="text-gray-500 text-sm mt-1">Add a subject and define grading criteria.</p>
         </div>
 
@@ -16,7 +16,7 @@
                 <input type="text" 
                        name="subject_name" 
                        placeholder="Enter Subject Name" 
-                       class="w-full bg-transparent border-none text-2xl font-bold text-gray-800 placeholder-gray-400 focus:ring-0 px-0"
+                       class="w-full bg-transparent border-none text-2xl font-bold text-gray-700 placeholder-gray-400 focus:ring-0 px-0"
                        required autofocus>
                 <div class="h-0.5 w-full bg-gray-300 mt-2"></div>
             </div>

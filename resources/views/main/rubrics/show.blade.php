@@ -61,7 +61,7 @@
                 @endphp
 
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-bold text-gray-800 border-l-4 border-[#764BA2] pl-3">
+                    <h3 class="text-lg font-bold text-gray-700 border-l-4 border-[#764BA2] pl-3">
                         Assessment Criteria
                     </h3>
                     
@@ -84,7 +84,7 @@
 
                             <div class="flex-grow">
                                 <div class="flex items-center justify-between mb-2">
-                                    <h4 class="text-lg font-bold text-gray-900">{{ $item['name'] }}</h4>
+                                    <h4 class="text-lg font-bold text-gray-700">{{ $item['name'] }}</h4>
                                     <span class="md:hidden bg-indigo-50 text-[#764BA2] px-2 py-1 rounded text-xs font-bold">{{ $item['weight'] }}%</span>
                                 </div>
                                 <p class="text-gray-500 text-sm leading-relaxed">

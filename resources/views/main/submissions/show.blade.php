@@ -3,7 +3,7 @@
         
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Analysis Result</h1>
+                <h1 class="text-3xl font-bold text-gray-700">Analysis Result</h1>
                 <p class="text-gray-500">Review the AI grading below.</p>
             </div>
             
@@ -11,13 +11,13 @@
                 <form action="{{ route('submissions.destroy', $submission->id) }}" method="POST" onsubmit="return confirm('Discard this result?');">
                     @csrf @method('DELETE')
                     <button class="px-4 py-3 bg-red-50 text-red-600 rounded-xl font-bold hover:bg-red-100 transition-colors">
-                        Discard / Delete
+                        Delete
                     </button>
                 </form>
 
                 <a href="{{ route('submissions.index') }}" class="px-6 py-3 bg-[#764BA2] text-white rounded-xl font-bold hover:bg-[#633e8a] shadow-lg shadow-indigo-200 transition-transform transform hover:-translate-y-0.5 flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                    Confirm & Finish
+                    Done
                 </a>
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="col-span-1 space-y-6">
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-indigo-50">
                     <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Student Info</h3>
-                    <h1 class="text-2xl font-bold text-gray-900 mb-1">{{ $submission->student_name }}</h1>
+                    <h1 class="text-2xl font-bold text-gray-700 mb-1">{{ $submission->student_name }}</h1>
                     <p class="text-sm text-gray-500">Submitted {{ $submission->created_at->diffForHumans() }}</p>
                     
                     <div class="mt-6 pt-6 border-t border-gray-100">
@@ -53,7 +53,7 @@
 
                     <div class="p-8 bg-gray-50/50 min-h-[400px]">
                         @if($submission->extracted_text)
-                            <div class="prose max-w-none font-mono text-sm text-gray-800 whitespace-pre-wrap">
+                            <div class="prose max-w-none font-mono text-sm text-gray-700 whitespace-pre-wrap">
                                 {!! nl2br(e($submission->extracted_text)) !!}
                             </div>
                         @else

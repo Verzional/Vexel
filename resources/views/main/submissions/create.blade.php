@@ -25,7 +25,7 @@
         </div>
 
         <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-gray-900">Upload Submission</h2>
+            <h2 class="text-3xl font-bold text-gray-700">Upload Submission</h2>
             <p class="text-gray-500 mt-2">Submit student work and let AI grade it.</p>
         </div>
 
@@ -53,7 +53,7 @@
                 @csrf
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">Step 1: Select Rubric</label>
+                    <label class="block text-lg font-bold text-gray-700 mb-3">Step 1: Select Rubric</label>
                     <div class="relative">
                         <select name="rubric_id" required class="w-full px-5 py-4 rounded-xl bg-gray-50 border-gray-200 text-gray-700 focus:ring-2 focus:ring-[#764BA2]">
                             <option value="" disabled selected>Choose a rubric...</option>
@@ -65,7 +65,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">Step 2: Select Assignment</label>
+                    <label class="block text-lg font-bold text-gray-700 mb-3">Step 2: Select Assignment</label>
                     <div class="relative">
                         <select name="assignment_id" required class="w-full px-5 py-4 rounded-xl bg-gray-50 border-gray-200 text-gray-700 focus:ring-2 focus:ring-[#764BA2]">
                             <option value="" disabled selected>Choose assignment...</option>
@@ -77,13 +77,13 @@
                 </div>
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">Step 3: Student Name</label>
+                    <label class="block text-lg font-bold text-gray-700 mb-3">Step 3: Student Name</label>
                     <input type="text" name="student_name" placeholder="Enter student's full name..."
                            class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 focus:ring-2 focus:ring-[#764BA2]">
                 </div>
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">Step 4: Upload PDF Files</label>
+                    <label class="block text-lg font-bold text-gray-700 mb-3">Step 4: Upload PDF Files</label>
                     <div class="relative group">
                         <input type="file" name="pdf_files[]" multiple required accept=".pdf"
                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -93,7 +93,7 @@
                             <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm text-[#764BA2]">
                                 <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                             </div>
-                            <p class="text-gray-900 font-bold text-lg">Drag & Drop PDF files here</p>
+                            <p class="text-gray-700 font-bold text-lg">Drag & Drop PDF files here</p>
                             <p class="text-[#764BA2] font-medium mt-1">or click to browse</p>
                             <p id="file-name-display" class="mt-4 text-sm text-gray-500 font-medium"></p>
                         </div>

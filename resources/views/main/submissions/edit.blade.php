@@ -2,7 +2,7 @@
     <div class="max-w-4xl mx-auto">
         
         <div class="mb-8">
-            <h2 class="text-3xl font-bold text-gray-900">Edit Submission</h2>
+            <h2 class="text-3xl font-bold text-gray-700">Edit Submission</h2>
             <p class="text-gray-500 mt-1">Update student name or replace the uploaded file.</p>
         </div>
 
@@ -13,7 +13,7 @@
                 @method('PUT')
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">Step 1: Assignment</label>
+                    <label class="block text-lg font-bold text-gray-700 mb-3">Step 1: Assignment</label>
                     <div class="relative">
                         <select name="assignment_id" required
                                 class="w-full px-5 py-4 rounded-xl bg-gray-50 border-gray-200 text-gray-700 focus:ring-2 focus:ring-[#764BA2] focus:border-transparent appearance-none cursor-pointer text-base">
@@ -32,14 +32,14 @@
                 </div>
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">Step 2: Student Name</label>
+                    <label class="block text-lg font-bold text-gray-700 mb-3">Step 2: Student Name</label>
                     <input type="text" name="student_name" 
                            value="{{ old('student_name', $submission->student_name) }}" required
                            class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 focus:ring-2 focus:ring-[#764BA2] focus:border-transparent text-base">
                 </div>
 
                 <div>
-                    <label class="block text-lg font-bold text-gray-800 mb-3">
+                    <label class="block text-lg font-bold text-gray-700 mb-3">
                         Step 3: Replace File <span class="text-sm font-normal text-gray-500">(Optional)</span>
                     </label>
                     
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="flex items-center justify-end gap-4 pt-4">
-                    <a href="{{ route('submissions.index') }}" class="text-gray-500 hover:text-gray-800 font-bold px-4">Cancel</a>
+                    <a href="{{ route('submissions.index') }}" class="text-gray-500 hover:text-gray-700 font-bold px-4">Cancel</a>
                     <button type="submit" 
                             class="bg-[#764BA2] hover:bg-[#633e8a] text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:-translate-y-0.5">
                         Save Changes

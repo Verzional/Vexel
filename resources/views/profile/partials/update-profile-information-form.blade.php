@@ -1,6 +1,6 @@
 <section>
     <header class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-900">
+        <h2 class="text-2xl font-bold text-gray-700">
             {{ __('Profile Information') }}
         </h2>
 
@@ -38,7 +38,7 @@
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                    <p class="text-sm text-gray-800">
+                    <p class="text-sm text-gray-700">
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification"
