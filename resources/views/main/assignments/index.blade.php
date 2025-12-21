@@ -16,7 +16,8 @@
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search assignments..."
                 class="w-full py-2.5 pl-10 pr-4 bg-gray-50 border border-gray-200
                text-gray-700 rounded-xl focus:outline-none
-               focus:ring-2 focus:ring-[#764BA2]">
+               focus:ring-2 focus:ring-[#764BA2]
+               transition-all placeholder-gray-400">
         </form>
 
         <a href="{{ Route::has('assignments.create') ? route('assignments.create') : '#' }}"
@@ -82,10 +83,10 @@
 
                     <div
                         class="pt-4 border-t border-indigo-200/50 flex flex-col gap-1 text-xs font-medium text-gray-500">
-                        <div class="flex items-center justify-between">
-                            <span>Rubric Used:</span>
+                        <div class="flex items-center gap-2">
+                            Rubric Used:
                             <span
-                                class="text-[#764BA2] font-bold bg-white px-2 py-0.5 rounded-md border border-indigo-100">
+                                class="text-[#764BA2] font-bold bg-white px-2 py-1 rounded-md border border-indigo-100">
                                 {{ $assignment->rubric->subject_name ?? 'Unassigned' }}
                             </span>
                         </div>
