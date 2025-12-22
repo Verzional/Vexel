@@ -16,7 +16,7 @@
             <div class="bg-[#e7e2ff] p-6 sm:p-8 border-b border-slate-100">
                 <h2 class="text-2xl font-extrabold text-slate-700">Edit Rubric</h2>
                 <p class="text-slate-500 text-sm font-medium mt-1">Update subject name or modify assessment criteria
-                    weighting.</p>
+                    weight.</p>
             </div>
 
             @php
@@ -76,7 +76,7 @@
                                     class="md:col-span-4 flex flex-col justify-center bg-white/60 rounded-2xl p-4 border border-white">
                                     <label
                                         class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex justify-between items-center">
-                                        Weighting
+                                        Weight
                                         <span class="bg-[#764BA2] text-white px-2 py-0.5 rounded-md text-[10px]"
                                             x-text="item.weight + '%'"></span>
                                     </label>
