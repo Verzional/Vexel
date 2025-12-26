@@ -20,6 +20,8 @@ class GradingService
 
     public function gradeSubmission(Submission $submission)
     {
+        ini_set('max_execution_time', 300);
+
         $rubric = $submission->assignment->rubric;
         $assignmentDescription = $submission->assignment->description;
         $studentText = $submission->extracted_text;
@@ -38,7 +40,7 @@ class GradingService
         $prompt = $this->buildPrompt($rubric, $studentText, $assignmentDescription, $historyExamples);
 
         $response = Http::withHeaders(['Content-Type' => 'application/json'])
-            ->withOptions(['verify' => false])
+            ->withOptions(['verify' => false, 'timeout' => 120]) 
             ->post("{$this->baseUrl}?key={$this->apiKey}", [
                 'contents' => [
                     ['parts' => [['text' => $prompt]]],
