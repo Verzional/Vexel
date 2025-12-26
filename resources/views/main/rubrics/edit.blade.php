@@ -1,5 +1,5 @@
 <x-edit-layout title="Edit Rubric" description="Update criteria and performance levels."
-    backRoute="{{ route('rubrics.index') }}" maxWidth="7xl">
+    backRoute="{{ route('rubrics.index') }}" maxWidth="5xl">
     @php
         $existingCriteria = is_string($rubric->criteria) ? json_decode($rubric->criteria, true) : $rubric->criteria;
         if (!is_array($existingCriteria)) {
