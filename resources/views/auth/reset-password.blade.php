@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout title="Reset Password">
     <div class="mb-8">
         <h2 class="text-3xl font-bold text-gray-900">Reset Password</h2>
     </div>

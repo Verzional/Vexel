@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout title="Login">
     <div class="mb-8"> 
         <h2 class="text-4xl font-bold text-gray-900 text-center lg:text-left">Login Account</h2>
     </div>

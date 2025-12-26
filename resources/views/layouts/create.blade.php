@@ -8,7 +8,7 @@
     };
 @endphp
 
-<x-app-layout>
+<x-app-layout :title="$title">
     <div class="{{ $maxWidthClass }} mx-auto py-12 px-4 sm:px-6 lg:px-8">
         @if($backRoute)
             <div class="mb-6">

@@ -22,7 +22,7 @@
     };
 @endphp
 
-<x-app-layout>
+<x-app-layout :title="$title">
     <div class="{{ $maxWidthClass }} mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {{-- Back Link --}}
         @if ($backRoute)

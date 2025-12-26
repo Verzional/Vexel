@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout title="Register">
     <div class="mb-8">
         <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
     </div>

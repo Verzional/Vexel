@@ -10,7 +10,7 @@
     };
 @endphp
 
-<x-app-layout>
+<x-app-layout :title="$title">
     <div class="{{ $maxWidthClass }} mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
             <div class="flex-1">
