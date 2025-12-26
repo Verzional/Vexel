@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GradingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RubricController;
@@ -73,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Resources
+    Route::resource('courses', CourseController::class);
     Route::resource('rubrics', RubricController::class);
     Route::resource('assignments', AssignmentController::class);
     Route::resource('submissions', SubmissionController::class);

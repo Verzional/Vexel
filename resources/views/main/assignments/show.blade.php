@@ -24,22 +24,48 @@
 
         {{-- Sidebar --}}
         <div class="space-y-6">
+            {{-- Course Info --}}
+            @if($assignment->course)
             <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
                 <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
-                    Grading Criteria
+                    Course
+                </h3>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Course Name</div>
+                    <div class="font-bold text-[#764BA2] text-lg">
+                        {{ $assignment->course->name }}
+                    </div>
+                    <div class="text-sm text-slate-500 mt-1">Year: {{ $assignment->course->year }}</div>
+                </div>
+            </div>
+            @endif
+
+            {{-- Rubric Info --}}
+            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
+                    Grading Rubric
                 </h3>
 
+                @if($assignment->rubric)
                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-4">
                     <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Rubric Name</div>
                     <div class="font-bold text-[#764BA2] text-lg">
-                        {{ $assignment->rubric->subject_name ?? 'Unknown' }}
+                        {{ $assignment->rubric->subject_name }}
                     </div>
                 </div>
 
-                <a href="{{ route('rubrics.show', $assignment->rubric_id) }}"
+                <a href="{{ route('rubrics.show', $assignment->rubric->id) }}"
                     class="block w-full py-2.5 text-center bg-[#764BA2]/10 text-[#764BA2] font-bold rounded-xl hover:bg-[#764BA2] hover:text-white transition-all text-sm">
                     View Full Rubric
                 </a>
+                @else
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-amber-700 text-sm">
+                    <p class="font-medium">No rubric assigned yet.</p>
+                    <a href="{{ route('rubrics.create') }}" class="text-[#764BA2] hover:underline font-bold mt-2 inline-block">
+                        Create a rubric for this assignment →
+                    </a>
+                </div>
+                @endif
             </div>
         </div>
     </div>

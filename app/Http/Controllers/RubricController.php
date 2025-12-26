@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,14 @@ class RubricController extends Controller
      */
     public function index(Request $request)
     {
-        $rubrics = Rubric::when($request->search, function ($query, $search) {
-            $query->where('subject_name', 'like', "%{$search}%")
-                ->orWhere('criteria', 'like', "%{$search}%");
-        })
+        $rubrics = Rubric::with('assignment')
+            ->when($request->search, function ($query, $search) {
+                $query->where('subject_name', 'like', "%{$search}%")
+                    ->orWhere('criteria', 'like', "%{$search}%")
+                    ->orWhereHas('assignment', function ($q) use ($search) {
+                        $q->where('title', 'like', "%{$search}%");
+                    });
+            })
             ->latest()
             ->get();
 
@@ -27,7 +32,9 @@ class RubricController extends Controller
      */
     public function create()
     {
-        return view('main.rubrics.create');
+        $assignments = Assignment::doesntHave('rubric')->get();
+
+        return view('main.rubrics.create', compact('assignments'));
     }
 
     /**
@@ -36,10 +43,17 @@ class RubricController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'assignment_id' => 'required|exists:assignments,id|unique:rubrics,assignment_id',
             'subject_name' => 'required|string',
             'criteria' => 'required|array',
-            'criteria.*.name' => 'required|string',
-            'criteria.*.weight' => 'required|numeric',
+            'criteria.*.indicator' => 'required|string',
+            'criteria.*.criteria' => 'required|string',
+            'criteria.*.weight' => 'required|numeric|min:0|max:100',
+            'criteria.*.levels' => 'required|array|min:1',
+            'criteria.*.levels.*.min' => 'required|numeric|min:0|max:100',
+            'criteria.*.levels.*.max' => 'required|numeric|min:0|max:100',
+            'criteria.*.levels.*.grade' => 'required|string',
+            'criteria.*.levels.*.description' => 'required|string',
         ]);
 
         Rubric::create($validated);
@@ -52,6 +66,8 @@ class RubricController extends Controller
      */
     public function show(Rubric $rubric)
     {
+        $rubric->load('assignment');
+
         return view('main.rubrics.show', compact('rubric'));
     }
 
@@ -60,7 +76,12 @@ class RubricController extends Controller
      */
     public function edit(Rubric $rubric)
     {
-        return view('main.rubrics.edit', compact('rubric'));
+        $rubric->load('assignment');
+        $assignments = Assignment::doesntHave('rubric')
+            ->orWhere('id', $rubric->assignment_id)
+            ->get();
+
+        return view('main.rubrics.edit', compact('rubric', 'assignments'));
     }
 
     /**
@@ -69,10 +90,17 @@ class RubricController extends Controller
     public function update(Request $request, Rubric $rubric)
     {
         $validated = $request->validate([
+            'assignment_id' => 'required|exists:assignments,id|unique:rubrics,assignment_id,' . $rubric->id,
             'subject_name' => 'required|string',
             'criteria' => 'required|array',
-            'criteria.*.name' => 'required|string',
-            'criteria.*.weight' => 'required|numeric',
+            'criteria.*.indicator' => 'required|string',
+            'criteria.*.criteria' => 'required|string',
+            'criteria.*.weight' => 'required|numeric|min:0|max:100',
+            'criteria.*.levels' => 'required|array|min:1',
+            'criteria.*.levels.*.min' => 'required|numeric|min:0|max:100',
+            'criteria.*.levels.*.max' => 'required|numeric|min:0|max:100',
+            'criteria.*.levels.*.grade' => 'required|string',
+            'criteria.*.levels.*.description' => 'required|string',
         ]);
 
         $rubric->update($validated);

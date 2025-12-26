@@ -62,10 +62,17 @@
                     <div
                         class="pt-4 border-t border-indigo-200/50 flex flex-col gap-1 text-xs font-medium text-gray-500">
                         <div class="flex items-center gap-2">
-                            Rubric Used:
+                            Course:
                             <span
                                 class="text-[#764BA2] font-bold bg-white px-2 py-1 rounded-md border border-indigo-100">
-                                {{ $assignment->rubric->subject_name ?? 'Unassigned' }}
+                                {{ $assignment->course->name ?? 'Unassigned' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            Rubric:
+                            <span
+                                class="text-[#764BA2] font-bold bg-white px-2 py-1 rounded-md border border-indigo-100">
+                                {{ $assignment->rubric->subject_name ?? 'Not Set' }}
                             </span>
                         </div>
                         

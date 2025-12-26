@@ -1,4 +1,4 @@
-<x-edit-layout title="Edit Assignment" description="Adjust title, rubric mapping, or instructions for this task."
+<x-edit-layout title="Edit Assignment" description="Adjust title, course, or instructions for this task."
     backRoute="{{ route('assignments.index') }}" maxWidth="5xl">
     <form method="POST" action="{{ route('assignments.update', $assignment->id) }}" class="p-6 sm:p-8 space-y-4">
         @csrf
@@ -6,24 +6,15 @@
 
         <div class="space-y-2">
             <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
-                Assignment Title
-            </label>
-            <input type="text" name="title" value="{{ old('title', $assignment->title) }}"
-                class="block w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white"
-                placeholder="e.g. Final Essay: Literature Review" required>
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
-                Grading Rubric
+                Select Course
             </label>
             <div class="relative group">
-                <select name="rubric_id" required
+                <select name="course_id" required
                     class="block w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white appearance-none cursor-pointer">
-                    @foreach ($rubrics as $rubric)
-                        <option value="{{ $rubric->id }}"
-                            {{ $assignment->rubric_id == $rubric->id ? 'selected' : '' }}>
-                            {{ $rubric->subject_name }}
+                    @foreach ($courses as $course)
+                        <option value="{{ $course->id }}"
+                            {{ $assignment->course_id == $course->id ? 'selected' : '' }}>
+                            {{ $course->name }} ({{ $course->year }})
                         </option>
                     @endforeach
                 </select>
@@ -34,6 +25,21 @@
                     </svg>
                 </div>
             </div>
+            @error('course_id')
+                <p class="text-xs text-red-500 mt-1 ml-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
+                Assignment Title
+            </label>
+            <input type="text" name="title" value="{{ old('title', $assignment->title) }}"
+                class="block w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white"
+                placeholder="e.g. Final Essay: Literature Review" required>
+            @error('title')
+                <p class="text-xs text-red-500 mt-1 ml-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="space-y-2">
@@ -42,7 +48,10 @@
             </label>
             <textarea name="description" rows="10"
                 class="block w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white resize-none"
-                placeholder="Detail the expectations for this assignment...">{{ old('description', $assignment->description) }}</textarea>
+                placeholder="Detail the expectations for this assignment..." required>{{ old('description', $assignment->description) }}</textarea>
+            @error('description')
+                <p class="text-xs text-red-500 mt-1 ml-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="pt-6 flex flex-col sm:flex-row items-center justify-end gap-3 border-t border-slate-100">

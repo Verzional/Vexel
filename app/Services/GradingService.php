@@ -66,24 +66,38 @@ class GradingService
     private function buildPrompt(Rubric $rubric, string $studentText, string $assignmentDescription, $examples)
     {
         $prompt = "You are an expert academic grader for the subject: {$rubric->subject_name}.\n";
-        $prompt .= "Your task is to grade a student's work based on the weighted criteria below.\n\n";
+        $prompt .= "Your task is to grade a student's work based on the weighted criteria and performance level descriptors below.\n\n";
 
         $prompt .= "### ASSIGNMENT INSTRUCTIONS (Topic):\n";
         $prompt .= $assignmentDescription."\n";
         $prompt .= "IMPORTANT: If the student's submission is not relevant to these instructions, penalize the grade significantly, even if the rubric criteria are met.\n\n";
 
-        $prompt .= "### GRADING CRITERIA (The Rules):\n";
+        $prompt .= "### GRADING CRITERIA WITH PERFORMANCE LEVELS:\n";
+        $prompt .= "Each criterion has a weight, an indicator, and performance levels that describe the expected quality at each score band.\n\n";
+        
         foreach ($rubric->criteria as $criterion) {
-            $name = $criterion['name'];
+            $indicator = $criterion['indicator'] ?? $criterion['name'] ?? 'Unknown';
+            $criteriaDesc = $criterion['criteria'] ?? $criterion['description'] ?? '';
             $weight = $criterion['weight'];
-            $desc = $criterion['description'] ?? '';
+            $levels = $criterion['levels'] ?? [];
 
-            $prompt .= "- **{$name}** (Weight: {$weight}%)\n";
-            if ($desc) {
-                $prompt .= "  Context: $desc\n";
+            $prompt .= "**{$indicator}** (Weight: {$weight}%)\n";
+            $prompt .= "What to assess: {$criteriaDesc}\n";
+            
+            if (!empty($levels)) {
+                $prompt .= "Scoring Guide:\n";
+                // Sort levels by min score descending (highest first)
+                usort($levels, fn($a, $b) => ($b['min'] ?? 0) <=> ($a['min'] ?? 0));
+                foreach ($levels as $level) {
+                    $min = $level['min'] ?? 0;
+                    $max = $level['max'] ?? 100;
+                    $grade = $level['grade'] ?? '';
+                    $desc = $level['description'] ?? '';
+                    $prompt .= "  • {$min}-{$max} ({$grade}): {$desc}\n";
+                }
             }
+            $prompt .= "\n";
         }
-        $prompt .= "\n";
 
         if ($examples->isNotEmpty()) {
             $prompt .= "### REFERENCE EXAMPLES (Previous Grading Style):\n";
@@ -102,26 +116,26 @@ class GradingService
         {
             "breakdown": [
                 { 
-                    "criterion": "Clarity", 
-                    "score": 12, 
-                    "max_score": 15,
-                },
-                { 
-                    "criterion": "Understanding", 
-                    "score": 18, 
-                    "max_score": 20,
+                    "criterion": "KU1.2 The suitability of methods and data", 
+                    "score": 75, 
+                    "max_score": 100,
+                    "grade": "B",
+                    "weighted_score": 37.5
                 }
             ],
-            "final_grade": 30,
+            "final_grade": 75,
             "reasoning": "Overall reasoning for the grade...",
             "notable_points": ["Point 1", "Point 2", "Point 3"],
             "overall_feedback": "..."
         }
         
         IMPORTANT RULES:
-        1. 'max_score' MUST match the Weight % defined in the Grading Criteria.
-        2. 'score' is the points earned out of 'max_score'.
-        3. 'final_grade' must be the sum of all 'score' values.
+        1. 'score' should be a value between 0-100 based on the performance level descriptors.
+        2. 'grade' should match the grade band the score falls into.
+        3. 'weighted_score' = (score / 100) * weight of that criterion.
+        4. 'final_grade' must be the sum of all 'weighted_score' values (out of 100).
+        5. Use the Performance Level descriptors to justify the score and grade given.
+        6. Match the criterion name exactly as provided in the indicator.
         EOT;
 
         return $prompt;

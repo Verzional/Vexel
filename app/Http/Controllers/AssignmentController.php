@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
-use App\Models\Rubric;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
@@ -13,10 +13,13 @@ class AssignmentController extends Controller
      */
     public function index(Request $request)
     {
-        $assignments = Assignment::with('rubric')
+        $assignments = Assignment::with(['course', 'rubric'])
             ->when($request->search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhereHas('course', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
                     ->orWhereHas('rubric', function ($q) use ($search) {
                         $q->where('subject_name', 'like', "%{$search}%");
                     });
@@ -32,21 +35,20 @@ class AssignmentController extends Controller
      */
     public function create()
     {
-        $rubrics = Rubric::all();
+        $courses = Course::all();
 
-        return view('main.assignments.create', compact('rubrics'));
+        return view('main.assignments.create', compact('courses'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    // app/Http/Controllers/AssignmentController.php
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
             'title' => 'required|string',
             'description' => 'required|string',
-            'rubric_id' => 'required|exists:rubrics,id',
         ]);
 
         Assignment::create($validated);
@@ -59,6 +61,8 @@ class AssignmentController extends Controller
      */
     public function show(Assignment $assignment)
     {
+        $assignment->load(['course', 'rubric']);
+
         return view('main.assignments.show', compact('assignment'));
     }
 
@@ -67,9 +71,9 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
-        $rubrics = Rubric::all();
+        $courses = Course::all();
 
-        return view('main.assignments.edit', compact('assignment', 'rubrics'));
+        return view('main.assignments.edit', compact('assignment', 'courses'));
     }
 
     /**
@@ -78,9 +82,9 @@ class AssignmentController extends Controller
     public function update(Request $request, Assignment $assignment)
     {
         $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
             'title' => 'required|string',
             'description' => 'required|string',
-            'rubric_id' => 'required|exists:rubrics,id',
         ]);
 
         $assignment->update($validated);
