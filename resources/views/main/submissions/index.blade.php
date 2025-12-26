@@ -24,10 +24,9 @@
                         </svg>
                     </a>
 
-                    <form action="{{ route('submissions.destroy', $submission) }}" method="POST"
-                        onsubmit="return confirm('Delete this submission?');">
+                    <form id="delete-form-{{ $submission->id }}" action="{{ route('submissions.destroy', $submission) }}" method="POST">
                         @csrf @method('DELETE')
-                        <button type="submit"
+                        <button type="button" onclick="confirmDelete({{ $submission->id }})"
                             class="w-8 h-8 flex items-center justify-center bg-[#ffdede] text-red-500 rounded-lg hover:bg-red-500 hover:text-white hover:scale-110 transition-all">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -75,4 +74,6 @@
             </div>
         @endforelse
     </div>
+
+    <x-toast-delete message="Are you sure you want to delete this submission? This action cannot be undone." />
 </x-index-layout>

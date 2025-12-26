@@ -9,20 +9,27 @@
                 Select Course
             </label>
             <div class="relative group">
-                <select name="course_id" required
-                    class="block w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white appearance-none cursor-pointer">
-                    @foreach ($courses as $course)
-                        <option value="{{ $course->id }}"
-                            {{ $assignment->course_id == $course->id ? 'selected' : '' }}>
-                            {{ $course->name }} ({{ $course->year }})
-                        </option>
-                    @endforeach
-                </select>
-                <div
-                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 group-hover:text-[#764BA2] transition-colors">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
-                    </svg>
+                <input type="hidden" name="course_id" id="course_id" value="{{ old('course_id', $assignment->course_id) }}" required>
+                <div class="relative">
+                    <input type="text" id="course_search" placeholder="Search and select a course..."
+                        class="w-full px-4 py-3 rounded-xl border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white cursor-pointer"
+                        readonly onclick="toggleDropdown()" value="{{ $courses->where('id', old('course_id', $assignment->course_id))->first() ? $courses->where('id', old('course_id', $assignment->course_id))->first()->name . ' (' . $courses->where('id', old('course_id', $assignment->course_id))->first()->year . ')' : '' }}">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 group-hover:text-[#764BA2] transition-colors">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div id="course_dropdown" class="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-60 overflow-y-auto hidden">
+                    <input type="text" id="course_filter" placeholder="Type to search..."
+                        class="w-full px-4 py-2 border-b border-slate-200 text-slate-700 focus:outline-none focus:border-[#764BA2]">
+                    <div id="course_options">
+                        @foreach ($courses as $course)
+                            <div class="course-option px-4 py-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium {{ $assignment->course_id == $course->id ? 'bg-[#764BA2]/10' : '' }}" data-value="{{ $course->id }}" data-text="{{ $course->name }} ({{ $course->year }})">
+                                {{ $course->name }} ({{ $course->year }})
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             @error('course_id')
@@ -65,4 +72,46 @@
             </button>
         </div>
     </form>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('course_dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function selectCourse(value, text) {
+            document.getElementById('course_id').value = value;
+            document.getElementById('course_search').value = text;
+            document.getElementById('course_dropdown').classList.add('hidden');
+        }
+
+        document.getElementById('course_filter').addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const options = document.querySelectorAll('.course-option');
+            options.forEach(option => {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('course_dropdown');
+            const searchInput = document.getElementById('course_search');
+            if (!dropdown.contains(event.target) && !searchInput.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        document.querySelectorAll('.course-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const text = this.getAttribute('data-text');
+                selectCourse(value, text);
+            });
+        });
+    </script>
 </x-edit-layout>

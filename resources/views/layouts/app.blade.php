@@ -41,15 +41,21 @@
                     <span>Dashboard</span>
                 </x-sidebar-link>
 
-                @if (Route::has('rubrics.index'))
-                    <x-sidebar-link :href="route('rubrics.index')" :active="request()->routeIs('rubrics*')">
-                        <span>Rubrics</span>
+                @if (Route::has('courses.index'))
+                    <x-sidebar-link :href="route('courses.index')" :active="request()->routeIs('courses*')">
+                        <span>Courses</span>
                     </x-sidebar-link>
                 @endif
 
                 @if (Route::has('assignments.index'))
                     <x-sidebar-link :href="route('assignments.index')" :active="request()->routeIs('assignments*')">
                         <span>Assignments</span>
+                    </x-sidebar-link>
+                @endif
+
+                @if (Route::has('rubrics.index'))
+                    <x-sidebar-link :href="route('rubrics.index')" :active="request()->routeIs('rubrics*')">
+                        <span>Rubrics</span>
                     </x-sidebar-link>
                 @endif
 
@@ -93,7 +99,8 @@
             <!-- Mobile Header -->
             <header
                 class="flex items-center justify-between p-4 bg-white border-b border-gray-100 lg:hidden sticky top-0 z-20">
-                <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none p-2 rounded-md hover:bg-gray-100">
+                <button @click="sidebarOpen = true"
+                    class="text-gray-500 focus:outline-none p-2 rounded-md hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>

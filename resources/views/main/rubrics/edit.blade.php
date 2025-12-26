@@ -19,18 +19,27 @@
                     Select Assignment
                 </label>
                 <div class="relative group">
-                    <select name="assignment_id" required
-                        class="w-full px-4 py-3 rounded-xl border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white appearance-none cursor-pointer">
-                        @foreach ($assignments as $assignment)
-                            <option value="{{ $assignment->id }}" {{ $rubric->assignment_id == $assignment->id ? 'selected' : '' }}>
-                                {{ $assignment->title }} ({{ $assignment->course->name ?? 'No Course' }})
-                            </option>
-                        @endforeach
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 group-hover:text-[#764BA2] transition-colors">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
-                        </svg>
+                    <input type="hidden" name="assignment_id" id="assignment_id" value="{{ old('assignment_id', $rubric->assignment_id) }}" required>
+                    <div class="relative">
+                        <input type="text" id="assignment_search" placeholder="Search and select an assignment..."
+                            class="w-full px-4 py-3 rounded-xl border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white cursor-pointer"
+                            readonly onclick="toggleDropdown()" value="{{ $assignments->where('id', old('assignment_id', $rubric->assignment_id))->first() ? $assignments->where('id', old('assignment_id', $rubric->assignment_id))->first()->title . ' (' . ($assignments->where('id', old('assignment_id', $rubric->assignment_id))->first()->course->name ?? 'No Course') . ')' : '' }}">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 group-hover:text-[#764BA2] transition-colors">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="assignment_dropdown" class="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-60 overflow-y-auto hidden">
+                        <input type="text" id="assignment_filter" placeholder="Type to search..."
+                            class="w-full px-4 py-2 border-b border-slate-200 text-slate-700 focus:outline-none focus:border-[#764BA2]">
+                        <div id="assignment_options">
+                            @foreach ($assignments as $assignment)
+                                <div class="assignment-option px-4 py-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium {{ $rubric->assignment_id == $assignment->id ? 'bg-[#764BA2]/10' : '' }}" data-value="{{ $assignment->id }}" data-text="{{ $assignment->title }} ({{ $assignment->course->name ?? 'No Course' }})">
+                                    {{ $assignment->title }} ({{ $assignment->course->name ?? 'No Course' }})
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 @error('assignment_id')
@@ -285,5 +294,47 @@
                 }
             }
         }
+    </script>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('assignment_dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function selectAssignment(value, text) {
+            document.getElementById('assignment_id').value = value;
+            document.getElementById('assignment_search').value = text;
+            document.getElementById('assignment_dropdown').classList.add('hidden');
+        }
+
+        document.getElementById('assignment_filter').addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const options = document.querySelectorAll('.assignment-option');
+            options.forEach(option => {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('assignment_dropdown');
+            const searchInput = document.getElementById('assignment_search');
+            if (!dropdown.contains(event.target) && !searchInput.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        document.querySelectorAll('.assignment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const text = this.getAttribute('data-text');
+                selectAssignment(value, text);
+            });
+        });
     </script>
 </x-edit-layout>

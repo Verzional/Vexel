@@ -6,7 +6,7 @@
         toast.id = 'confirm-toast';
         toast.className = 'fixed bottom-4 right-4 z-50';
         toast.innerHTML = `
-            <div class="w-96 bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5">
+            <div class="w-96 bg-white shadow-lg rounded-2xl pointer-events-auto ring-1 ring-slate-200 border border-slate-100">
                 <div class="p-4">
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
@@ -15,12 +15,12 @@
                             </svg>
                         </div>
                         <div class="ml-3 w-0 flex-1 pt-0.5">
-                            <p class="text-sm font-medium text-gray-900 dark:text-gray-100">Confirm Deletion</p>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $message }}</p>
+                            <p class="text-sm font-medium text-slate-700">Confirm Deletion</p>
+                            <p class="mt-1 text-sm text-slate-500">{{ $message }}</p>
                         </div>
                         <div class="ml-4 flex-shrink-0 flex space-x-2">
-                            <button type="button" onclick="proceedDelete(${id})" class="inline-flex text-red-600 hover:text-red-900">Yes</button>
-                            <button type="button" onclick="hideConfirmToast()" class="inline-flex text-gray-400 hover:text-gray-500">No</button>
+                            <button type="button" onclick="proceedDelete(${id})" class="inline-flex text-red-600 hover:text-red-800 font-medium">Yes</button>
+                            <button type="button" onclick="hideConfirmToast()" class="inline-flex text-slate-400 hover:text-slate-600 font-medium">No</button>
                         </div>
                     </div>
                 </div>

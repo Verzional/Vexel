@@ -1,4 +1,4 @@
-<x-show-layout badge="Submission Detail" :title="$submission->student_name" :subtitle="'Created on ' . $submission->created_at->format('M d, Y')" :backRoute="route('submissions.index')" :editRoute="route('submissions.edit', $submission)">  
+<x-show-layout badge="Submission Detail" :title="$submission->student_name" :subtitle="'Created on ' . $submission->created_at->format('M d, Y')" :backRoute="route('submissions.index')" :editRoute="route('submissions.edit', $submission)">
     <x-slot name="subtitleIcon">
         <svg class="w-5 h-5 text-[#764BA2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -44,9 +44,6 @@
                             </svg>
                         </div>
                         <div class="truncate min-w-0">
-                            <p class="font-bold text-slate-700 text-sm truncate uppercase tracking-tight">
-                                {{ basename($submission->file_path) }}
-                            </p>
                             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">PDF Document</p>
                         </div>
                     </div>

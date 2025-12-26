@@ -15,11 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('rubrics.index')" :active="request()->routeIs('rubrics.*')">
-                        {{ __('Rubrics') }}
+                    <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                        {{ __('Courses') }}
                     </x-nav-link>
                     <x-nav-link :href="route('assignments.index')" :active="request()->routeIs('assignments.*')">
                         {{ __('Assignments') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('rubrics.index')" :active="request()->routeIs('rubrics.*')">
+                        {{ __('Rubrics') }}
                     </x-nav-link>
                     <x-nav-link :href="route('submissions.index')" :active="request()->routeIs('submissions.*')">
                         {{ __('Submissions') }}
@@ -87,11 +90,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('rubrics.index')" :active="request()->routeIs('rubrics.*')">
-                {{ __('Rubrics') }}
+            <x-responsive-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                {{ __('Courses') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('assignments.index')" :active="request()->routeIs('assignments.*')">
                 {{ __('Assignments') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('rubrics.index')" :active="request()->routeIs('rubrics.*')">
+                {{ __('Rubrics') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('submissions.index')" :active="request()->routeIs('submissions.*')">
                 {{ __('Submissions') }}

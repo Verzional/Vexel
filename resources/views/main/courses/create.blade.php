@@ -1,5 +1,5 @@
 <x-create-layout title="Create New Course" description="Add a new course for organizing assignments."
-    backRoute="{{ route('courses.index') }}" maxWidth="2xl">
+    backRoute="{{ route('courses.index') }}" maxWidth="5xl">
     <form method="POST" action="{{ route('courses.store') }}" class="p-6 sm:p-8 space-y-6">
         @csrf
 
@@ -19,8 +19,7 @@
             <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
                 Academic Year
             </label>
-            <input type="number" name="year" value="{{ old('year', date('Y')) }}"
-                min="2000" max="2100"
+            <input type="number" name="year" value="{{ old('year', date('Y')) }}" min="2000" max="2100"
                 class="block w-full px-4 py-4 rounded-2xl border-slate-200 text-slate-700 text-xl font-bold focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all"
                 placeholder="e.g. 2025" required>
             @error('year')

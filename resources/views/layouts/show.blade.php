@@ -85,11 +85,10 @@
                         @endif
 
                         @if ($deleteRoute)
-                            <form action="{{ $deleteRoute }}" method="POST"
-                                onsubmit="return confirm('{{ $deleteConfirm }}');">
+                            <form id="delete-form-show" action="{{ $deleteRoute }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
+                                <button type="button" onclick="confirmDelete('show')"
                                     class="p-2 sm:p-2.5 bg-white rounded-xl shadow-sm text-slate-400 hover:text-red-500 hover:shadow-md transition-all border border-slate-200"
                                     title="Delete">
                                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,4 +112,6 @@
     @if (isset($scripts))
         {{ $scripts }}
     @endif
+
+    <x-toast-delete :message="$deleteConfirm ?? 'Are you sure you want to delete this item? This action cannot be undone.'" />
 </x-app-layout>

@@ -1,5 +1,5 @@
 <x-edit-layout title="Edit Course" description="Update course name or academic year."
-    backRoute="{{ route('courses.index') }}" maxWidth="2xl">
+    backRoute="{{ route('courses.index') }}" maxWidth="5xl">
     <form method="POST" action="{{ route('courses.update', $course->id) }}" class="p-6 sm:p-8 space-y-6">
         @csrf
         @method('PUT')
