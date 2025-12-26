@@ -3,12 +3,18 @@
         x-data="{ files: null }"> @csrf
 
         <div class="space-y-2">
+            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Student Name</label>
+            <input type="text" name="student_name" placeholder="e.g. John Smith"
+                class="block w-full px-4 py-4 rounded-2xl border-slate-200 text-slate-700 text-xl font-bold focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white" required>
+        </div>
+
+        <div class="space-y-2">
             <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Assignment Target</label>
             <div class="relative group">
                 <select name="assignment_id"
                     class="w-full px-4 py-3 rounded-xl border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white appearance-none cursor-pointer"
                     required>
-                    <option value="">Select an Assignment</option>
+                    <option value="" disabled selected>Select an Assignment</option>
                     @foreach ($assignments as $assignment)
                         <option value="{{ $assignment->id }}">{{ $assignment->title }}</option>
                     @endforeach
@@ -20,12 +26,7 @@
                     </svg>
                 </div>
             </div>
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Student Name</label>
-            <input type="text" name="student_name" placeholder="Enter student's full name"
-                class="block w-full px-4 py-4 rounded-2xl border-slate-200 text-slate-700 text-xl font-bold focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white">
+            <p class="text-[10px] text-slate-400 italic ml-1">Select which assignment this submission belongs to.</p>
         </div>
 
         <div class="space-y-2">
@@ -37,7 +38,7 @@
                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     @change="files = $event.target.files">
                 <div class="space-y-2">
-                    <svg class="w-10 h-10 mx-auto mb-2 transition-colors duration-300"
+                    <svg class="w-12 h-12 mx-auto mb-2 transition-colors duration-300"
                         :class="files ? 'text-green-500' : 'text-gray-400'" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path x-show="!files" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

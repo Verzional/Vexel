@@ -38,7 +38,7 @@
     <nav class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-lg border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-8 md:h-9 w-auto">
+                <img src="{{ asset('images/logo_vexel.webp') }}" alt="Vexel Logo" class="h-8 md:h-9 w-auto">
             </div>
 
             <div class="flex items-center gap-4">
@@ -89,7 +89,7 @@
                     </p>
 
                     <div class="flex items-center justify-center lg:justify-start gap-4">
-                        <a href="{{ route('login') }}"
+                        <a href="{{ route('register') }}"
                             class="bg-brand-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-brand-900 transition shadow-xl shadow-brand-600/20 flex items-center gap-2">
                             Get Started
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -106,7 +106,7 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-indigo-50/80 via-transparent to-transparent">
                     </div>
 
-                    <img src="{{ asset('images/welcome.png') }}"
+                    <img src="{{ asset('images/welcome.webp') }}"
                         class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[75%] sm:h-[80%] lg:h-[90%] object-contain z-0"
                         alt="Happy User">
 

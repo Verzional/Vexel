@@ -20,7 +20,7 @@
             <div class="relative group">
                 <select name="rubric_id" required
                     class="w-full px-4 py-3 rounded-xl border-slate-200 text-slate-700 font-medium focus:border-[#764BA2] focus:ring focus:ring-[#764BA2]/10 transition-all bg-white appearance-none cursor-pointer">
-                    <option value="" disabled selected>-- Select a Rubric --</option>
+                    <option value="" disabled selected>Select a Rubric</option>
                     @foreach ($rubrics as $rubric)
                         <option value="{{ $rubric->id }}">{{ $rubric->subject_name }}</option>
                     @endforeach

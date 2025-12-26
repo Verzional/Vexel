@@ -15,7 +15,7 @@
             <div
                 class="bg-[#EBEBFF] rounded-2xl p-6 relative hover:shadow-md transition-shadow group flex flex-col h-full border border-indigo-50">
 
-                <div class="absolute top-4 right-4 flex gap-2 z-10">
+                <div class="absolute top-4 right-4 flex gap-2 z-20">
                     <a href="{{ route('assignments.edit', $assignment->id) }}"
                         class="p-2 bg-[#D0D3F5] text-[#764BA2] rounded-lg hover:bg-[#764BA2] hover:text-white transition-colors shadow-sm"
                         title="Edit">

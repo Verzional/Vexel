@@ -20,7 +20,7 @@
             
             <div class="p-12 pb-0 z-10">
                 <div class="flex items-center gap-3 mb-10">
-                    <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-10 w-auto">
+                    <img src="{{ asset('images/logo_vexel.webp') }}" alt="Vexel Logo" class="h-10 w-auto">
                 </div>
 
                 @if (request()->routeIs('register'))
@@ -40,11 +40,11 @@
 
             <div class="absolute bottom-0 left-0 right-0 flex items-end px-8 z-0">
                 @if (request()->routeIs('register'))
-                    <img src="{{ asset('images/register.png') }}" 
+                    <img src="{{ asset('images/register.webp') }}" 
                          alt="Register Vexel" 
                          class="w-full max-w-xl object-contain object-bottom drop-shadow-sm">
                 @else
-                    <img src="{{ asset('images/login.png') }}" 
+                    <img src="{{ asset('images/login.webp') }}" 
                          alt="Login Vexel" 
                          class="w-full max-w-sm object-contain object-bottom drop-shadow-sm">
                 @endif

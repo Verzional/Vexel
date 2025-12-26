@@ -31,7 +31,7 @@
 
             <div class="h-24 flex items-center px-8">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-10 w-auto">
+                    <img src="{{ asset('images/logo_vexel.webp') }}" alt="Vexel Logo" class="h-10 w-auto">
                 </a>
             </div>
 
@@ -100,7 +100,7 @@
                     </svg>
                 </button>
                 <div class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo_vexel.png') }}" alt="Vexel Logo" class="h-8 w-auto">
+                    <img src="{{ asset('images/logo_vexel.webp') }}" alt="Vexel Logo" class="h-8 w-auto">
                 </div>
                 <div class="w-10"></div> <!-- Spacer for balance -->
             </header>
