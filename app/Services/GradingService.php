@@ -15,7 +15,7 @@ class GradingService
 
     public function __construct()
     {
-        $this->apiKey = env('GEMINI_API_KEY');
+        $this->apiKey = config('services.gemini.key');
     }
 
     public function gradeSubmission(Submission $submission)
@@ -89,7 +89,9 @@ class GradingService
             if (!empty($levels)) {
                 $prompt .= "Scoring Guide:\n";
                 // Sort levels by min score descending (highest first)
-                usort($levels, fn($a, $b) => ($b['min'] ?? 0) <=> ($a['min'] ?? 0));
+                usort($levels, function($a, $b) {
+                    return ($b['min'] ?? 0) <=> ($a['min'] ?? 0);
+                });
                 foreach ($levels as $level) {
                     $min = $level['min'] ?? 0;
                     $max = $level['max'] ?? 100;
