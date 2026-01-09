@@ -1,27 +1,34 @@
-🚀 Team Progress on Features
+# Vexel
 
-We are currently in the transition phase between Design and Development. Below is the detailed status of our progress for the "Vexel" application:
+Vexel is a modern web application built with Laravel that leverages Google's Gemini AI to automatically grade student assignment submissions based on customizable rubrics. The system extracts text from PDF files and provides detailed, consistent grading with reasoning and feedback.
 
-1. UI/UX Design (Figma)
-We have completed the High-Fidelity designs for the majority of the application modules. Our focus has been on ensuring a consistent visual identity and a user-friendly experience for instructors.
+## Features
 
-Completed Designs:
-- Auth & User: Login Page, Register Page, Edit Profile Page.
-- Dashboard: Main Dashboard (Home).
-- Rubric Management: Rubric Library Page, Create New Rubric Page.
-- Grading System: Grading Submission Page, Student History Page, Reports Page.
+### 🎓 Course Management
+- Create and manage academic courses
+- Organize assignments by course and academic year
+- Track course statistics and activities
 
-Work In Progress:
-- Landing Page.
-- Grading Assignment Page (Execution/Detail View).
-- User Profile Page (View Mode).
+### 📝 Assignment Creation
+- Define assignments with detailed descriptions
+- Attach comprehensive grading rubrics
+- Support for various academic subjects
 
-2. Backend & AI Development
-The core logic of our application is functional. We have successfully implemented the backend structure and its integration with the AI engine.
+### 📋 Rubric-Based Grading
+- Create detailed assessment criteria with weights
+- Define performance level descriptors (A, B, C, D, F bands)
+- Support for multiple grading criteria per assignment
 
-- AI Logic: The AI processing logic is fully operational. The system can successfully accept rubric parameters and evaluate submitted work.
-- Integration Status: The backend is connected to the AI service. We are currently using a temporary interface to verify the logic.
-- Pending: We are finalizing the API Key configuration to prepare the system for full-scale usage.
+### 🤖 AI-Powered Grading
+- Automatic text extraction from PDF submissions
+- Integration with Google Gemini 2.5 Flash API
+- Consistent grading based on rubric criteria
+- Detailed feedback and reasoning generation
+- Notable points extraction
 
-3. Next Steps: Frontend Implementation
-With the Figma designs nearing completion and the backend logic ready, our team's immediate next step is **UI Slicing**. We will begin translating our high-fidelity designs into the actual frontend code to replace the temporary testing interface.
+### 📊 Results & Analytics
+- Comprehensive grade breakdowns by criterion
+- Weighted scoring calculations
+- Grade verification system
+- Historical grading examples for consistency
+
